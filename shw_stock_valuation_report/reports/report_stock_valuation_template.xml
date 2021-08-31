@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<template id="stock_val_report_tmpl">
+		<t t-call="web.html_container">
+			<t t-call="web.external_layout">
+				<div class="page" style="">
+					<div class="oe_structure"/>
+						<table width="100%">
+							<tr>
+								<td  width="100%" class="text-center" style="vertical-align:top;color: #000000;"><h3><u><b>Stock Valuation Report</b></u></h3></td>
+							</tr>
+						</table>
+						<br/>
+						<table style="border: 1px solid black;" width="100%" class="text-center">
+							<tr>
+								<th style="border: 1px solid black; color: #000000; background-color:#C6C1C1;" class="text-center">Company</th>
+								<th style="border: 1px solid black; color: #000000; background-color:#C6C1C1;" class="text-center">Warehouse</th>
+								<th style="border: 1px solid black; color: #000000;background-color:#C6C1C1;" class="text-center">Valuation Date</th>
+							</tr>
+							<tr>
+								 <th style="border: 1px solid black;" class="text-center"><span t-esc="data['company_id'].name"/></th>
+								 <th style="border: 1px solid black;" class="text-center"><span t-esc="get_warehouse(data['warehouse_ids'])"/></th>
+								 <th style="border: 1px solid black;" class="text-center"><span t-esc="data['start_date']"/> To <span t-esc="data['end_date']"/> </th>
+							</tr>
+						</table>
+						<br/>
+						<table class="table table-sm o_main_table" width='100%'>
+							<thead style="display: table-row-group">
+								<tr>
+									<th style="border: 1px solid black; color: #000000; background-color:#C6C1C1;" class="text-center">Internal Reference</th>
+									<th style="border: 1px solid black; color: #000000; background-color:#C6C1C1;" class="text-center">Name</th>
+									<th style="border: 1px solid black; color: #000000; background-color:#C6C1C1;" class="text-center">Category</th>
+<!-- 									<th style="border: 1px solid black; color: #000000; background-color:#C6C1C1;" class="text-center">Costing Method </th> -->
+									<th style="border: 1px solid black; color: #000000; background-color:#C6C1C1;" class="text-center">Cost Price</th>
+									<th style="border: 1px solid black; color: #000000; background-color:#C6C1C1;" class="text-center">Opening</th>
+									<th style="border: 1px solid black; color: #000000; background-color:#C6C1C1;" class="text-center">Internal</th>
+									<th style="border: 1px solid black; color: #000000; background-color:#C6C1C1;" class="text-center">Received</th>
+									<th style="border: 1px solid black; color: #000000; background-color:#C6C1C1;" class="text-center">Delivered</th>
+									<th style="border: 1px solid black; color: #000000; background-color:#C6C1C1;" class="text-center">Adjustment</th>
+									<th style="border: 1px solid black; color: #000000; background-color:#C6C1C1;" class="text-center">Closing</th>
+									<th style="border: 1px solid black; color: #000000; background-color:#C6C1C1;" class="text-center">Valuation</th>
+								</tr>
+							</thead>
+							<tbody class="sale_tbody" style="font-size:14px">
+								<t t-if="data['filter_by'] == 'product'">
+									<tr t-foreach="get_lines(data)" t-as="line">
+										<td style="padding:5px;border: 1px solid #C6C1C1;" class="text-left"><span t-esc="line.get('sku')"/></td>
+										<td style="padding:5px;border: 1px solid #C6C1C1;" class="text-left"><span t-esc="line.get('name')"/></td>
+										<td style="padding:5px;border: 1px solid #C6C1C1;" class="text-left"><span t-esc="line.get('category')"/></td>
+<!-- 										<td style="padding:5px;border: 1px solid #C6C1C1;" class="text-left"><span t-esc="line.get('costing_method')"/></td> -->
+										<td style="padding:5px;border: 1px solid #C6C1C1;" class="text-right"><span t-esc="line.get('cost_price')"/></td>
+										<td style="padding:5px;border: 1px solid #C6C1C1;" class="text-right"><span t-esc="line.get('beginning')"/></td>
+										<td style="padding:5px;border: 1px solid #C6C1C1;" class="text-right"><span t-esc="line.get('internal')"/></td>
+										<td style="padding:5px;border: 1px solid #C6C1C1;" class="text-right"><span t-esc="line.get('incoming')"/></td>
+										<td style="padding:5px;border: 1px solid #C6C1C1;" class="text-right"><span t-esc="line.get('sale_value')"/></td>
+										<td style="padding:5px;border: 1px solid #C6C1C1;" class="text-right"><span t-esc="line.get('outgoing')"/></td>
+										<td style="padding:5px;border: 1px solid #C6C1C1;" class="text-right"><span t-esc="line.get('net_on_hand')"/></td>
+										<td style="padding:5px;border: 1px solid #C6C1C1;" class="text-right"><span t-esc="'%.2f'%line.get('total_value')"/></td>
+									</tr>
+								</t>
+								<t t-if="data['filter_by'] == 'categ'">
+									<t t-set="category_data" t-value="get_lines_by_category(data)"/>
+									<t t-foreach="category_data" t-as="categ">
+										<tr class="bg-200 font-weight-bold o_line_section">
+											<td name="td_categ_line" colspan="99">
+			                                    Category: <span t-field="categ.display_name"/>
+			                                </td>
+										</tr>
+										<tr t-foreach="category_data[categ]" t-as="line">
+											<td style="padding:5px;border: 1px solid #C6C1C1;" class="text-left"><span t-esc="line.get('sku')"/></td>
+											<td style="padding:5px;border: 1px solid #C6C1C1;" class="text-left"><span t-esc="line.get('name')"/></td>
+											<td style="padding:5px;border: 1px solid #C6C1C1;" class="text-left"><span t-esc="line.get('category')"/></td>
+<!-- 											<td style="padding:5px;border: 1px solid #C6C1C1;" class="text-left"><span t-esc="line.get('costing_method')"/></td> -->
+											<td style="padding:5px;border: 1px solid #C6C1C1;" class="text-right"><span t-esc="line.get('cost_price')"/></td>
+											<td style="padding:5px;border: 1px solid #C6C1C1;" class="text-right"><span t-esc="line.get('beginning')"/></td>
+											<td style="padding:5px;border: 1px solid #C6C1C1;" class="text-right"><span t-esc="line.get('internal')"/></td>
+											<td style="padding:5px;border: 1px solid #C6C1C1;" class="text-right"><span t-esc="line.get('incoming')"/></td>
+											<td style="padding:5px;border: 1px solid #C6C1C1;" class="text-right"><span t-esc="line.get('sale_value')"/></td>
+											<td style="padding:5px;border: 1px solid #C6C1C1;" class="text-right"><span t-esc="line.get('outgoing')"/></td>
+											<td style="padding:5px;border: 1px solid #C6C1C1;" class="text-right"><span t-esc="line.get('net_on_hand')"/></td>
+											<td style="padding:5px;border: 1px solid #C6C1C1;" class="text-right"><span t-esc="'%.2f'%line.get('total_value')"/></td>
+										</tr>
+									</t>
+								</t>
+							</tbody>
+						</table>
+					<div class="oe_structure"/>
+				</div>
+			</t>
+		</t>
+	</template>
+</odoo>

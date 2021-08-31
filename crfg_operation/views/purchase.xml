@@ -1,0 +1,122 @@
+<odoo>
+    <record id="view_person_contact_tree" model="ir.ui.view">
+        <field name="name">person.contact.tree</field>
+        <field name="model">person.contact</field>
+        <field name="arch" type="xml">
+            <tree string="Person To Contact" editable="top">
+                <field name="name"/>
+                <field name="telephone" class="o_force_ltr"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_person_contact" model="ir.actions.act_window">
+        <field name="name">Person To Contact</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">person.contact</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <menuitem id="menu_person_contact" 
+    	name="Person To Contact" 
+    	parent="purchase.menu_purchase_config" 
+    	action="action_person_contact" 
+    	sequence="0"/>
+
+
+    <record id="view_end_users_tree" model="ir.ui.view">
+        <field name="name">end.users.tree</field>
+        <field name="model">end.users</field>
+        <field name="arch" type="xml">
+            <tree string="End Users" editable="top">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_end_users" model="ir.actions.act_window">
+        <field name="name">End Users</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">end.users</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <menuitem id="menu_end_users" 
+    	name="End Users" 
+    	parent="purchase.menu_purchase_config" 
+    	action="action_end_users" 
+    	sequence="0"/>
+
+
+	<record id="view_purchase_order_inherit_crfg_operation_form" model="ir.ui.view">
+	    <field name="name">purchase_order_crfg_operation_form</field>
+	    <field name="model">purchase.order</field>
+	    <field name="inherit_id" ref="purchase.purchase_order_form"/>
+	    <field name="arch" type="xml">
+	    	<xpath expr="//header/button[@id='bid_confirm']" position="replace"/>
+	    	<xpath expr="//header/button[@id='draft_confirm']" position="replace"/>
+	    	<xpath expr="//header/button[@name='button_cancel']" position="attributes">
+	    		<attribute name="context">{'menual_cancel':True}</attribute>
+	    	</xpath>
+	        <xpath expr="//group/group/field[@name='partner_id']" position="after">
+	            <field name="partner_contact_id" widget="res_partner_many2one" context="{'default_type':'contact'}" domain="[('parent_id','=',partner_id)]" options='{"always_reload": True}'/>
+	        </xpath>
+			<xpath expr="//group/group/field[@name='partner_ref']" position="after">
+				<field name="mrf_reference"/>
+			</xpath>
+			<xpath expr="//group/group/field[@name='currency_id']" position="after">
+				<field name="project_name"/>
+				<field name="location_site"/>
+			</xpath>
+			<xpath expr="//group/group/field[@name='origin']" position="before">
+				<field name="remarks"/>
+				<field name="multi_approval_id"/>
+			</xpath>
+			<xpath expr="//field[@name='order_line']/tree/field[@name='product_qty']" position="before">
+				<field name="tbc"/>
+			</xpath>
+			<xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="attributes">
+				<attribute name="widget">monetary</attribute>
+			</xpath>
+			<xpath expr="//page[@name='purchase_delivery_invoice']/group/group/field[@name='fiscal_position_id']" position="after">
+	    		<field name="person_contact_id"/>
+	    		<field name="telephone" widget="phone"/>
+	    		<field name="end_user_id"/>
+	    	</xpath>
+	    	
+	    </field>
+	</record>
+
+	<record id="view_purchase_order_kpis_inherit_crfg_operation_tree" model="ir.ui.view">
+	    <field name="name">purchase_quotation_crfg_operation_tree</field>
+	    <field name="model">purchase.order</field>
+	    <field name="inherit_id" ref="purchase.purchase_order_kpis_tree"/>
+	    <field name="arch" type="xml">
+	    	<xpath expr="//field[@name='name']" position="after">
+	    		<field name="remarks" optional="show"/>
+	    	</xpath> 
+	    	<xpath expr="//field[@name='partner_id']" position="after">
+	    		<field name="mrf_reference" optional="show"/>
+	    		<field name="multi_approval_id" optional="show"/>
+	    	</xpath>
+		</field>
+	</record>
+	
+	<record id="view_purchase_order_inherit_crfg_operation_tree" model="ir.ui.view">
+	    <field name="name">purchase_order_crfg_operation_tree</field>
+	    <field name="model">purchase.order</field>
+	    <field name="inherit_id" ref="purchase.purchase_order_view_tree"/>
+	    <field name="arch" type="xml">
+	    	<xpath expr="//field[@name='date_planned']" position="attributes">
+	    		<attribute name="widget">remaining_days</attribute>
+	    	</xpath>
+	    	<xpath expr="//field[@name='date_planned']" position="before">
+	    		<field name="date_planned_realted" optional="show"/>
+	    	</xpath>
+	    	<xpath expr="//field[@name='date_planned']" position="after">
+	    		<field name="reception_date" optional="show"/>
+	    	</xpath>
+		</field>
+	</record>
+	
+</odoo>

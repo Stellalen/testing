@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="paperformat_landscape_report" model="report.paperformat">
+			<field name="name">European A4 Landscape</field>
+			<field name="default" eval="True" />
+			<field name="format">custom</field>
+			<field name="page_height">297</field>
+			<field name="page_width">210</field>
+			<field name="orientation">Landscape</field>
+			<field name="margin_top">50</field>
+			<field name="margin_bottom">15</field>
+			<field name="margin_left">5</field>
+			<field name="margin_right">5</field>
+			<field name="header_line" eval="False" />
+			<field name="header_spacing">45</field>
+			<field name="dpi">90</field>
+		</record>
+
+
+		<report 
+			id="action_stock_valuation_report"
+			string="Stock Valuation Report"
+			model="stock.valuation.wizard" 
+			report_type="qweb-pdf"
+			file="shw_stock_valuation_report.stock_val_report_tmpl" 
+			name="shw_stock_valuation_report.stock_val_report_tmpl"
+			paperformat="shw_stock_valuation_report.paperformat_landscape_report" 
+		/>
+	</data>
+</openerp>

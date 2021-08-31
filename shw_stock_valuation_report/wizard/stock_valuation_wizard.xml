@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<odoo>
+	<data>
+
+		<record id="view_stock_valuation_wizard" model="ir.ui.view">
+			<field name="name">stock.valuation.wizard.view</field>
+			<field name="model">stock.valuation.wizard</field>
+			<field name="arch" type="xml">
+				<form string="Inventory Valuation Report">
+					<group>
+						<group>
+							<field name="company_id"/>
+							<field name="location_id"/>
+						</group>
+						<group>
+							<field name="warehouse_ids" widget="many2many_tags" required="1"/>
+							<field name="filter_by" widget="radio" />
+						</group>
+					</group>
+
+					<group string="Period">
+						<group>
+							<field name="start_date"/>
+						</group>
+						<group >
+							<field name="end_date"/>
+						</group>
+					</group>
+
+					<group string="Product" attrs="{'invisible' : [('filter_by','!=','product')]}"/>
+                    <field name="product_ids" attrs="{'invisible' : [('filter_by','!=','product')]}">
+                         <tree>
+                             <field name="name"/>
+                         </tree>
+                     </field>
+	                  
+                     <group string="Category" attrs="{'invisible' : [('filter_by','!=','categ')]}"/>
+                     <field name="category_ids" attrs="{'invisible' : [('filter_by','!=','categ')]}">
+                        <tree>
+                            <field name="name"/>
+                        </tree>
+                    </field>
+					<footer>
+						<button string="Print Pdf" name="print_report" type="object" class="oe_highlight"/>
+						or
+						<button string="Print Excel" name="print_excel_report" type="object" class="oe_highlight"/>
+						or
+						<button string="Cancel" class="oe_link" special="cancel" />
+					</footer>
+			   </form>
+			</field>
+		</record>
+
+		<record id="action_stock_valuation_wizard" model="ir.actions.act_window">
+			<field name="name">Stock Valuation Report</field>
+			<field name="res_model">stock.valuation.wizard</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+		<menuitem
+			id="menu_stock_valuation_wizard"
+			name="Stock Valuation Report"
+			parent="stock.menu_warehouse_report"
+			action="action_stock_valuation_wizard"
+			groups="stock.group_stock_manager,stock.group_stock_user"
+		   />
+
+	 
+	</data>
+</odoo>

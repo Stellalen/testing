@@ -1,0 +1,3 @@
+id,name,model_id/id,group_id/id,perm_create,perm_read,perm_write,perm_unlink
+access_person_contact_all,person.contact.all,model_person_contact,base.group_user,1,1,1,1
+access_end_users_all,end.users.all,model_end_users,base.group_user,1,1,1,1

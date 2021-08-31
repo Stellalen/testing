@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<template id="report_multiapproval_standard">
+		    <t t-call="web.html_container">
+		        <t t-foreach="docs" t-as="o">
+		            <t t-call="crfg_print.other_external_layout_standard">
+		                <div class="page">
+<!-- 		                    <div class="oe_structure"/> -->
+							<table width="100%">
+								<tr>
+									<td  width="100%" class="text-center" style="vertical-align:top"><h5>STANDARD FORM FOR SELECTION/AWARD OF SUBCONTRACT/SUPPLIER </h5></td>
+								</tr>
+							</table>
+							<br/>
+	<span t-field="o.description"/>
+<br/><br/>
+<t t-set="ln_len" t-value="len(o.line_ids)"/>
+<table width="100%">
+	<tr>
+		<td width="20%">
+			<t t-if="ln_len > 1">
+				<t t-if="o.line_ids[1].approval_sign">
+					<img t-att-src="image_data_uri(o.line_ids[1].approval_sign)" style="max-height: 3cm; max-width: 6cm;"/>
+				</t>
+			</t>
+		</td>
+		<td width="5%"></td>
+		<td width="20%">
+			<t t-if="ln_len > 2">
+				<t t-if="o.line_ids[2].approval_sign">
+					<img t-att-src="image_data_uri(o.line_ids[2].approval_sign)" style="max-height: 3cm; max-width: 6cm;"/>
+				</t>
+			</t>
+		</td>
+		<td width="5%"></td>
+				<td width="20%">
+			<t t-if="ln_len > 3">
+				<t t-if="o.line_ids[3].approval_sign">
+					<img t-att-src="image_data_uri(o.line_ids[3].approval_sign)" style="max-height: 3cm; max-width: 6cm;"/>
+				</t>
+			</t>
+		</td>
+		<td width="5%"></td>
+		
+	</tr>
+	<tr>
+		<td width="20%">
+			<t t-if="ln_len > 1">
+				____________________________<br/>
+				<span t-field="o.line_ids[1].name"/>
+			</t>
+		</td>
+		<td width="5%"></td>
+		<td width="20%">
+			<t t-if="ln_len > 2">
+				____________________________<br/>
+				<span t-field="o.line_ids[2].name"/>
+			</t>
+		</td>
+		<td width="5%"></td>
+		<td width="20%">
+			<t t-if="ln_len > 3">
+				____________________________<br/>
+				<span t-field="o.line_ids[3].name"/>
+			</t>
+		</td>
+		<td width="5%"></td>
+	</tr>
+	<tr>
+		<td colspan="4"><br/><br/><br/></td>
+	</tr>
+</table>
+<table width="100%">
+	<tr>
+		<td width="20%">
+			<t t-if="ln_len > 4">
+				<t t-if="o.line_ids[4].approval_sign">
+					<img t-att-src="image_data_uri(o.line_ids[4].approval_sign)" style="max-height: 3cm; max-width: 6cm;"/>
+				</t>
+			</t>
+		</td>
+		<td width="5%"></td>
+		<td width="20%">
+			<t t-if="ln_len > 5">
+				<t t-if="o.line_ids[5].approval_sign">
+					<img t-att-src="image_data_uri(o.line_ids[5].approval_sign)" style="max-height: 3cm; max-width: 6cm;"/>
+				</t>
+			</t>
+		</td>
+		<td width="5%"></td>
+		<td width="20%">
+			<t t-if="ln_len > 6">
+				<t t-if="o.line_ids[6].approval_sign">
+					<img t-att-src="image_data_uri(o.line_ids[6].approval_sign)" style="max-height: 3cm; max-width: 6cm;"/>
+				</t>
+			</t>
+		</td>
+		<td width="5%"></td>
+	</tr>
+	<tr>
+		<td width="20%">
+			<t t-if="ln_len > 4">
+				____________________________<br/>
+				<span t-field="o.line_ids[4].name"/>
+			</t>
+		</td>
+		<td width="5%"></td>
+
+		<td width="20%">
+			<t t-if="ln_len > 5">
+				____________________________<br/>
+				<span t-field="o.line_ids[5].name"/>
+			</t>
+		</td>
+		<td width="5%"></td>
+		<td width="20%">
+			<t t-if="ln_len > 6">
+				____________________________<br/>
+				<span t-field="o.line_ids[6].name"/>
+			</t>
+		</td>
+		<td width="5%"></td>
+	</tr>
+	
+</table>
+
+		
+		                    <div class="oe_structure"/>
+		                </div>
+		            </t>
+		        </t>
+		    </t>
+		</template>
+</data>
+</odoo>

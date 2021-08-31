@@ -1,0 +1,46 @@
+<odoo>
+	<record id="view_multi_approval_inherit_crfg_operation_form" model="ir.ui.view">
+	    <field name="name">multi_approval_inherit_crfg_operation_form</field>
+	    <field name="model">multi.approval</field>
+	    <field name="inherit_id" ref="multi_level_approval.multi_approval_view_form"/>
+	    <field name="arch" type="xml">
+	    	<xpath expr="//header/widget[@name='attach_document'][1]" position="attributes">
+	    		<attribute name="attrs">{'invisible':['|', '|',('attachment_number', '&lt;', 1), ('id','=',False),('state', 'in', ('Approved', 'Refused'))]}</attribute>
+	    	</xpath>
+	    	<xpath expr="//header/widget[@name='attach_document'][2]" position="attributes">
+	    		<attribute name="attrs">{'invisible':['|', '|',('attachment_number', '&gt;=', 1), ('id','=',False),('state', 'in', ('Approved', 'Refused'))]}</attribute>
+	    	</xpath>
+	    	<xpath expr="//page[@name='description']/field[@name='description']" position="attributes">
+	    		<attribute name="attrs">{'readonly': [('state', 'not in', ('Draft','Submitted'))]}</attribute>
+	    	</xpath>
+	    	<xpath expr="//page[@name='approver']/field[@name='line_ids']/tree/field[@name='require_opt']" position="after">
+	    		<field name="approval_sign" records_draggable="false" widget="signature" options="{'full_name': 'display_name', 'size': ['',50]}" attrs="{'readonly':[('state','not in',('Waiting for Approval',))]}"/>
+	    		<field name="date_approve" readonly="1"/>
+	    	</xpath>
+	    	<xpath expr="//page[@name='approver']/field[@name='line_ids']/tree" position="after">
+	    		<form string="Approver">
+	    			<header>
+	    				<field name="state" widget="statusbar"/>
+	    			</header>
+	    			<sheet>
+	    				<group>
+	    					<group>
+	    						<field name="name"/>
+	    						<field name="sequence"/>
+	    						<field name="approval_id"/>
+	    						<field name="deadline"/>
+	    						<field name="refused_reason"/>
+	    					</group>
+	    					<group>
+	    						<field name="user_id"/>
+	    						<field name="require_opt"/>
+	    						<field name="date_approve"/>
+	    					</group>
+	    				</group>
+	    			</sheet>
+	    		</form>
+	    	</xpath>
+		</field>
+	</record>
+	
+</odoo>

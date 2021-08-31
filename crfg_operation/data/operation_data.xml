@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+
+   <template id="mail_notification_light_with_link">
+		<table border="0" cellpadding="0" cellspacing="0" style="padding-top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;"><tr><td align="center">
+		<table border="0" cellpadding="0" cellspacing="0" width="590" style="padding: 24px; background-color: white; color: #454748; border-collapse:separate;">
+		<tbody>
+		    <!-- HEADER -->
+		    <tr>
+		        <td align="center" style="min-width: 590px;">
+		            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: white; padding: 0; border-collapse:separate;">
+		                <tr><td valign="middle">
+		                	<span style="font-size: 12px;"><t t-esc="record.code"/></span><br/>
+		                    <span style="font-size: 20px; font-weight: bold;">
+		                        <t t-esc="message.record_name and message.record_name.replace('/','-') or ''"/>
+		                    </span>
+		                </td><td valign="middle" align="right">
+		                    <img t-att-src="'/logo.png?company=%s' % (company.id or 0)" style="padding: 0px; margin: 0px; height: 48px;" t-att-alt="'%s' % company.name"/>
+		                </td></tr>
+		                <tr><td colspan="2" style="text-align:center;">
+		                  <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin:4px 0px 32px 0px;"/>
+		                </td></tr>
+		            </table>
+		        </td>
+		    </tr>
+		    <!-- CONTENT -->
+		    <tr>
+		        <td style="min-width: 590px;">
+		            <t t-raw="message.body"/>
+		            <div>
+		   				<p style="margin-top: 24px; margin-bottom: 16px;">
+						    <a t-att-href="'/mail/view?model=%s&amp;res_id=%s' % (record._name, record.id)" style="background-color:#875A7B; padding: 10px; text-decoration: none; color: #fff; border-radius: 5px;">
+						            View 
+						    </a>
+						</p>
+		            </div>
+		        </td>
+		    </tr>
+		    <!-- FOOTER -->
+		    <tr>
+		        <td align="center" style="min-width: 590px; padding: 0 8px 0 8px; font-size:11px;">
+		            <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 4px 0px;"/>
+		            <b t-esc="company.name"/><br/>
+		            <div style="color: #999999;">
+		                <t t-esc="company.phone"/>
+		                <t t-if="company.email"> |
+		                    <a t-att-href="'mailto:%s' % company.email" style="text-decoration:none; color: #999999;"><t t-esc="company.email"/></a>
+		                </t>
+		                <t t-if="company.website"> |
+		                    <a t-att-href="'%s' % company.website" style="text-decoration:none; color: #999999;">
+		                        <t t-esc="company.website"/>
+		                    </a>
+		                </t>
+		            </div>
+		        </td>
+		    </tr>
+		</tbody>
+		</table>
+		</td></tr>
+		<!-- POWERED BY -->
+		<tr><td align="center" style="min-width: 590px;">
+		        Powered by <a target="_blank" href="https://www.odoo.com?utm_source=db&amp;utm_medium=email" style="color: #875A7B;">Odoo</a>
+		</td></tr>
+		</table>
+    </template>
+
+   <template id="mail_notification_light_with_link_for_PR">
+		<table border="0" cellpadding="0" cellspacing="0" style="padding-top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;"><tr><td align="center">
+		<table border="0" cellpadding="0" cellspacing="0" width="590" style="padding: 24px; background-color: white; color: #454748; border-collapse:separate;">
+		<tbody>
+		    <!-- HEADER -->
+		    <tr>
+		        <td align="center" style="min-width: 590px;">
+		            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: white; padding: 0; border-collapse:separate;">
+		                <tr><td valign="middle">
+		                	<t t-if="record._name=='purchase.requisition.line'">
+		                		<span style="font-size: 10px;"><t t-esc="'Purchase Requisition'"/></span><br/>
+			                    <span style="font-size: 20px; font-weight: bold;">
+			                        <t t-esc="record.requisition_id.name"/>
+			                    </span>
+		                	</t>
+		                	<t t-else="">
+			                    <span style="font-size: 10px;"><t t-esc="model_description or 'document'"/></span><br/>
+			                    <span style="font-size: 20px; font-weight: bold;">
+			                        <t t-esc="message.record_name and message.record_name.replace('/','-') or ''"/>
+			                    </span>
+			                </t>
+		                </td><td valign="middle" align="right">
+		                    <img t-att-src="'/logo.png?company=%s' % (company.id or 0)" style="padding: 0px; margin: 0px; height: 48px;" t-att-alt="'%s' % company.name"/>
+		                </td></tr>
+		                <tr><td colspan="2" style="text-align:center;">
+		                  <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin:4px 0px 32px 0px;"/>
+		                </td></tr>
+		            </table>
+		        </td>
+		    </tr>
+		    <!-- CONTENT -->
+		    <tr>
+		        <td style="min-width: 590px;">
+		            <t t-raw="message.body"/>
+		            <div>
+		            	<t t-if="record._name=='purchase.requisition.line'">
+		            		<p style="margin-top: 24px; margin-bottom: 16px;">
+							    <a t-att-href="'/mail/view?model=%s&amp;res_id=%s' % (record.requisition_id._name, record.requisition_id.id)" style="background-color:#875A7B; padding: 10px; text-decoration: none; color: #fff; border-radius: 5px;">
+							            View 
+							    </a>
+							</p>
+		            	</t>
+		            	<t t-else="">
+			   				<p style="margin-top: 24px; margin-bottom: 16px;">
+							    <a t-att-href="'/mail/view?model=%s&amp;res_id=%s' % (record._name, record.id)" style="background-color:#875A7B; padding: 10px; text-decoration: none; color: #fff; border-radius: 5px;">
+							            View 
+							    </a>
+							</p>
+						</t>
+		            </div>
+		        </td>
+		    </tr>
+		    <!-- FOOTER -->
+		    <tr>
+		        <td align="center" style="min-width: 590px; padding: 0 8px 0 8px; font-size:11px;">
+		            <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 4px 0px;"/>
+		            <b t-esc="company.name"/><br/>
+		            <div style="color: #999999;">
+		                <t t-esc="company.phone"/>
+		                <t t-if="company.email"> |
+		                    <a t-att-href="'mailto:%s' % company.email" style="text-decoration:none; color: #999999;"><t t-esc="company.email"/></a>
+		                </t>
+		                <t t-if="company.website"> |
+		                    <a t-att-href="'%s' % company.website" style="text-decoration:none; color: #999999;">
+		                        <t t-esc="company.website"/>
+		                    </a>
+		                </t>
+		            </div>
+		        </td>
+		    </tr>
+		</tbody>
+		</table>
+		</td></tr>
+		<!-- POWERED BY -->
+		<tr><td align="center" style="min-width: 590px;">
+		        Powered by <a target="_blank" href="https://www.odoo.com?utm_source=db&amp;utm_medium=email" style="color: #875A7B;">Odoo</a>
+		</td></tr>
+		</table>
+    </template>
+
+
+        <record id="email_template_todo_validate_approval" model="mail.template">
+            <field name="name">Need To Validate Approval Request</field>
+            <field name="model_id" ref="multi_level_approval.model_multi_approval"/>
+            <field name="subject">Approval Request (Ref ${object.name or 'n/a' })</field>
+            <field name="partner_to">${object.pic_id.partner_id.id}</field>
+            <field name="body_html" type="html">
+				<div style="margin: 0px; padding: 0px;">
+				    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+				        Dear ${object.pic_id.name}
+				        <br/><br/>
+				        Here is a reminder that <strong>${object.code} : ${object.name}</strong> requesting your kind approval.
+				    </p>
+				</div>
+				
+					</field>
+            <field name="lang">${object.pic_id.lang}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <record id="email_template_quantity_changed_purchase_requisition" model="mail.template">
+            <field name="name">Quantity Changed</field>
+            <field name="model_id" ref="crfg_operation.model_purchase_requisition_line"/>
+            <field name="subject">Purchase Requistion (Ref ${object.requisition_id.name or 'n/a' } : ${object.product_id.display_name or 'n/a' })</field>
+            <field name="partner_to">${object.requisition_id.user_id.partner_id.id}</field>
+            <field name="body_html" type="html">
+				<div style="margin: 0px; padding: 0px;">
+				    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+				        Dear All
+				        <br/><br/>
+				        Here is the quantity changed: <strong>${object.requisition_id.name} : ${object.product_id.display_name}</strong> .
+				        <br/>
+				        Actual Qty : ${ctx['old_qty']}
+				        <br/>
+				        New Changed Qty : ${object.product_qty}
+				    </p>
+				</div>
+				
+					</field>
+            <field name="lang">${object.requisition_id.user_id.lang}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <record id="email_template_refuse_approval" model="mail.template">
+            <field name="name">Approval Refused</field>
+            <field name="model_id" ref="multi_level_approval.model_multi_approval"/>
+            <field name="subject">Approval Request (Ref ${object.name or 'n/a' }) Refused</field>
+            <field name="partner_to"></field>
+            <field name="body_html" type="html">
+				<div style="margin: 0px; padding: 0px;">
+				    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+				        <br/><br/>
+				        <strong>${object.code} : ${object.name}</strong> is refused.
+				        <br/>
+				        <strong>Reason  :</strong> ${ctx['reason']}
+				        <br/>
+				    </p>
+				</div>
+				
+					</field>
+            <field name="lang">${object.pic_id.lang}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <record id="email_template_on_confirm_purchase_requisition" model="mail.template">
+            <field name="name">Purchase Requisition : Confirmation Notification</field>
+            <field name="model_id" ref="crfg_operation.model_purchase_requisition"/>
+            <field name="subject">${object.company_id.name} Order (Ref ${object.name or 'n/a' }) is Confirmed.</field>
+            <field name="partner_to">${object.user_id.partner_id.id}</field>
+            <field name="body_html" type="html">
+				<div style="margin: 0px; padding: 0px;">
+				    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+				        Dear ${ctx.get('email_to_name','')}
+				        <br/><br/>
+				        Here is a notification that the Purchase Requisition <strong>${object.name}</strong> is Confirmed
+				    </p>
+				</div>
+				
+					</field>
+            <field name="lang">${object.user_id.lang}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <record id="email_template_for_approved_purchase_requisition" model="mail.template">
+            <field name="name">Purchase Requisition : Approved Notification</field>
+            <field name="model_id" ref="multi_level_approval.model_multi_approval"/>
+            <field name="subject">Request completely approved (Ref ${object.name or 'n/a' })</field>
+            <field name="partner_to"></field>
+            <field name="body_html" type="html">
+				<div style="margin: 0px; padding: 0px;">
+				    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+				        Dear ${ctx.get('email_to_name','')}
+				        <br/><br/>
+				        Here is a notification that your approval request <strong>${object.name}</strong> is completely approved.
+				    </p>
+				</div>
+				
+					</field>
+            <field name="lang">${object.user_id.lang}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

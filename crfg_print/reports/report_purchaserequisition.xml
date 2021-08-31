@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<template id="purchase_requisition.report_purchaserequisitions">
+		    <t t-call="web.html_container">
+		        <t t-foreach="docs" t-as="o">
+		            <t t-call="crfg_print.purchase_requisition_external_layout_standard">
+		                <div class="page">
+		                    <div class="oe_structure"/>
+							<table width="100%">
+								<tr>
+									<td  width="100%" class="text-center" style="vertical-align:bottom"><h5>PURCHASE REQUISITION FORM</h5></td>
+								</tr>
+							</table>
+							<br/>
+							<table width="100%" style="font-size:12px">
+								<tr style="font-size:12px">
+									<td width="2%" class="text-center" style="border: 1px solid black"><strong>S/No</strong></td>
+									<td width="15%" class="text-center" style="padding:2px; border:1px solid black"><strong>ITEM NAME</strong></td>
+									<td width="20%" class="text-center" style="padding:2px; border:1px solid black"><strong>MODEL/DIMEN/BR</strong></td>
+									<td width="10%" class="text-center" style="padding:2px; border:1px solid black"><strong>QTY (UNIT)</strong></td>
+									<td width="10%" class="text-center" style="padding:2px; border:1px solid black"><strong>DATE REQ.</strong></td>
+									<td width="10%" class="text-center" style="padding:2px; border:1px solid black"><strong>PURPOSE</strong></td>
+									<td width="10%" class="text-center" style="padding:2px; border:1px solid black"><strong>DELIVER TO</strong></td>
+									<td width="10%" class="text-center" style="padding:2px; border:1px solid black"><strong>CONTACT PERSON</strong></td>
+									<td width="15%" class="text-center" style="padding:2px; border:1px solid black"><strong>REMARKS</strong></td>
+								</tr>
+								<t t-set="cnt" t-value="0"/>
+								<tr t-foreach="o.line_ids" t-as="line_ids">
+									<t t-set="cnt" t-value="cnt+1"/>
+									<td class="text-center" style="padding:2px; border:1px solid black"><span t-esc="cnt"/></td>
+									<td style="padding:2px; border:1px solid black">
+										[ <span t-field="line_ids.product_id.code"/> ]
+		                                        <span t-field="line_ids.product_id.name"/>
+									</td>
+									<td style="padding:2px; border:1px solid black"><span t-field="line_ids.product_description_variants"/></td>
+									<td class="text-center" style="padding:2px; border:1px solid black">
+										<span t-field="line_ids.product_qty"/> <span t-field="line_ids.product_uom_id.category_id.name"/>
+									</td>
+									<td class="text-center" style="padding:2px; border:1px solid black"><span t-field="line_ids.schedule_date"/></td>
+									<td style="padding:2px; border:1px solid black"><span t-field="line_ids.purpose"/></td>
+									<td class="text-center" style="padding:2px; border:1px solid black"><span t-field="line_ids.deliver_to"/></td>
+									<td class="text-center" style="padding:2px; border:1px solid black"><span t-field="line_ids.contact_person"/></td>
+									<td style="padding:2px; border:1px solid black"><span t-field="line_ids.remarks"/></td>
+								</tr>
+							</table>
+		                    <br/>
+		                    <t t-if="o.description">
+			                    <p style="font-size:12px"><strong>Important Notes:</strong><br/>
+			                    	<span t-field="o.description"/>
+			                    </p>
+			                    <br/>
+		                    </t>
+		                    <t t-set="approve_line_ids" t-value="o.multi_approval_id and o.multi_approval_id.line_ids or []"/>
+                            <table width="100%" style="font-size:12px">
+			                	<tr>
+			                		<td width="25%" style="padding-left:2mm">Requested By</td>
+			                		<td width="25%" style="padding-left:2mm">Reviewed By</td>
+			                		<td width="25%" style="padding-left:2mm">Approved By</td>
+			                		<td width="25%" style="padding-left:2mm">Approved By</td>
+			                	</tr>
+			                	<tr>
+			                		<td style="padding-left:2mm;padding-bottom:0mm">
+			                			<t t-if="o.requested_sign">
+			                				<img t-att-src="image_data_uri(o.requested_sign)" style="max-height: 2cm; max-width: 4cm;"/>
+			                			</t>
+			                			<t t-if="not o.requested_sign">
+			                				<br/><br/>
+			                			</t>
+			                		</td>
+			                		<td style="padding-left:2mm">
+			                			<t t-if="approve_line_ids and approve_line_ids[0].approval_sign">
+			                				<img t-att-src="image_data_uri(approve_line_ids[0].approval_sign)" style="max-height: 2cm; max-width: 4cm;"/>
+			                			</t>
+			                		</td>
+			                		<td style="padding-left:2mm">
+			                			<t t-if="len(approve_line_ids)>1 and approve_line_ids[1].approval_sign">
+			                				<img t-att-src="image_data_uri(approve_line_ids[1].approval_sign)" style="max-height: 2cm; max-width: 4cm;"/>
+			                			</t>
+			                		</td>
+			                		<td style="padding-left:2mm">
+			                			<t t-if="len(approve_line_ids)>2 and approve_line_ids[2].approval_sign">
+			                				<img t-att-src="image_data_uri(approve_line_ids[2].approval_sign)" style="max-height: 2cm; max-width: 4cm;"/>
+			                			</t>
+			                		</td>
+			                	</tr>
+			                	<tr>
+			                		<td style="padding-left:2mm">_____________________________</td>
+			                		<td style="padding-left:2mm">_____________________________</td>
+			                		<td style="padding-left:2mm">_____________________________</td>
+			                		<td style="padding-left:2mm">_____________________________</td>
+			                	</tr>
+			                	<tr height="12px" style="font-size:12px">
+			                		<td style="padding-left:2mm">Name: <span t-field="o.requested_name"/></td>
+			                		<td style="padding-left:2mm">Name:
+			                			<t t-if="approve_line_ids and approve_line_ids[0].user_id">
+			                				<span t-field="approve_line_ids[0].user_id.name"/>
+			                			</t>
+			                		</td>
+			                		<td style="padding-left:2mm">Name:
+			                			<t t-if="len(approve_line_ids)>1 and approve_line_ids[1].user_id">
+			                				<span t-field="approve_line_ids[1].user_id.name"/> (<span t-field="approve_line_ids[1].name"/>)
+			                			</t>
+			                		</td>
+			                		<td style="padding-left:2mm">Name:
+			                			<t t-if="len(approve_line_ids)>2 and approve_line_ids[2].user_id">
+			                				<span t-field="approve_line_ids[2].user_id.name"/> (<span t-field="approve_line_ids[2].name"/>)
+			                			</t>
+			                		</td>
+			                	</tr>
+			                	<tr height="12px" style="font-size:12px">
+			                		<td style="padding-left:2mm">Date: <span t-field="o.requested_date"/></td>
+			                		<td style="padding-left:2mm">Date:
+			                			<t t-if="approve_line_ids">
+			                				<span t-field="approve_line_ids[0].date_approve"/>
+			                			</t>
+			                		</td>
+			                		<td style="padding-left:2mm">Date:
+			                			<t t-if="len(approve_line_ids)>1">
+			                				<span t-field="approve_line_ids[1].date_approve"/>
+			                			</t>
+			                		</td>
+			                		<td style="padding-left:2mm">Date:
+			                			<t t-if="len(approve_line_ids)>2">
+			                				<span t-field="approve_line_ids[2].date_approve"/>
+			                			</t>
+			                		</td>
+			                	</tr>
+			                </table>
+		                    <br/><br/>
+	                        <h5 class="text-center">PURCHASE ORDER DETAILS</h5>
+	                        <table width="100%" style="font-size:12px">
+	                            <thead>
+	                                <tr>
+	                                    <th width="40%" class="text-center" style="padding:5px; border:1px solid black"><strong>VENDOR </strong></th>
+	                                    <th width="20%" class="text-center" style="padding:5px; border:1px solid black"><strong>DATE</strong></th>
+	                                    <th width="40%" class="text-center" style="padding:5px; border:1px solid black"><strong>REFERENCE </strong></th>
+	                                </tr>
+	                            </thead>
+	                            <tbody>
+	                                <tr t-foreach="o.purchase_ids" t-as="purchase_ids">
+	                                    <td style="padding:2px; border:1px solid black" class="text-center">
+	                                        <span t-field="purchase_ids.partner_id.name"/>
+	                                    </td>
+	                                    <td style="padding:2px; border:1px solid black" class="text-center">
+	                                        <span t-field="purchase_ids.date_order" t-options='{"widget": "date"}'/>
+	                                    </td>
+	                                    <td style="padding:2px; border:1px solid black" class="text-center">
+	                                        <span t-field="purchase_ids.name"/>
+	                                    </td>
+	                                </tr>
+	                            </tbody>
+	                        </table>
+		
+		                    <div class="oe_structure"/>
+		                </div>
+		            </t>
+		        </t>
+		    </t>
+		</template>
+</data>
+</odoo>

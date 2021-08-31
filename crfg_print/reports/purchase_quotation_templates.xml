@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="purchase_stock.report_purchasequotation_document" inherit_id="purchase.report_purchasequotation_document">
+    <data></data>
+</template>
+<template id="purchase.report_purchasequotation_document">
+    <t t-call="crfg_print.other_external_layout_standard">
+        <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
+        <div class="page" style="font-size: 11pt;">
+            <div class="oe_structure"/>
+            <h4>Request for Quotation <span t-field="o.name"/></h4>
+			<br/>
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                    	<th name="th_sr" class="text-right"><strong>S/N</strong></th>
+                        <th name="th_description"><strong>Description</strong></th>
+                        <th name="th_expected_date" class="text-center"><strong>Expected Date</strong></th>
+                        <th name="th_quantity" class="text-right"><strong>Qty</strong></th>
+                        <th name="th_unitprice" class="text-right"><strong>Unit Price</strong></th>
+                    </tr>
+                </thead>
+                <tbody>
+                	<t t-set="cnt" t-value="0"/>
+                    <t t-foreach="o.order_line" t-as="order_line">
+                    	<t t-set="cnt" t-value="cnt+1"/>
+                        <tr t-att-class="'bg-200 font-weight-bold o_line_section' if order_line.display_type == 'line_section' else 'font-italic o_line_note' if order_line.display_type == 'line_note' else ''">
+                            <t t-if="not order_line.display_type">
+                            	<td id="sn">
+                                    <span t-esc="cnt"/>
+                                </td>
+                                <td id="product">
+                                    <span t-field="order_line.name"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-field="order_line.date_planned" t-options='{"widget": "date"}'/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-field="order_line.product_qty"/>
+                                    <t t-if="order_line.product_uom.printed_uom">
+                                    	<span t-field="order_line.product_uom.printed_uom" groups="uom.group_uom"/>
+                                    </t>
+                                    <t t-else="">
+                                    	<span t-field="order_line.product_uom.name" groups="uom.group_uom"/>
+                                    </t>
+                                </td>
+                                <td class="text-right">
+                                    <span>( &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;
+                                    		&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;
+                                    		&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; )</span>
+                                </td>
+                            </t>
+                            <t t-else="">
+                                <td colspan="99" id="section">
+                                    <span t-field="order_line.name"/>
+                                </td>
+                            </t>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+            <p>* Please quote the price(s) before GST.</p>
+
+            <div class="oe_structure"/>
+        </div>
+    </t>
+</template>
+
+</odoo>
