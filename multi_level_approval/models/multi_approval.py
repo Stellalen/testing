@@ -8,6 +8,7 @@
 from odoo import api, models, fields, _
 from odoo.exceptions import Warning
 import logging
+from datetime import date, timedelta
 
 _logger = logging.getLogger(__name__)
 
@@ -187,6 +188,7 @@ class MultiApproval(models.Model):
                 next_line = other_lines.sorted('sequence')[0]
                 next_line.write({
                     'state': 'Waiting for Approval',
+                    'deadline':fields.Date.today()+timedelta(days=1),
                 })
                 rec.line_id = next_line
             line.set_approved()
@@ -251,7 +253,7 @@ class MultiApproval(models.Model):
                     'approval_id': r.id
                 }
                 if l == lines[0]:
-                    vals.update({'state': 'Waiting for Approval'})
+                    vals.update({'state': 'Waiting for Approval', 'deadline':fields.Date.today()+timedelta(days=1)})
                 approval = ApprovalLine.create(vals)
                 if l == lines[0]:
                     r.line_id = approval

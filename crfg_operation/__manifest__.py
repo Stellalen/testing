@@ -1,14 +1,14 @@
 # Copyright Alitec (<http://alitec.sg>).
 {
     'name': 'CRFG Operations',
-    'version': '14.00.00.24',
+    'version': '14.00.00.25',
     'category': 'CRFG',
     'sequence': 60,
     'summary': '',
     'description': """
 Customisation for 
 ==================================================
-    - Last updated: 18-AUG-2021
+    - Last updated: 08-oct-2021
     """,
     'author': 'Alitec Pte Ltd',
     'license': 'LGPL-3',

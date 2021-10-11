@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Odoo Approval',
-    'version': '14.0.1.1',
+    'version': '14.0.1.2',
     'category': 'Approvals',
     'description': """
+    -- Last Update: 08-OCT-2021
 Odoo Approval Module: Multi level approval - create and validate approvals requests.
 Each request can be approve by many levels of different managers.
 The managers wil review and approve sequentially

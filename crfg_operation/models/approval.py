@@ -70,8 +70,9 @@ class MultiApproval(models.Model):
         return res
     
     def send_todo_validate_email_notification(self):
+        ctx = dict(self._context or {})
         template = self.env.ref('crfg_operation.email_template_todo_validate_approval', raise_if_not_found=False)
-        template.with_context(is_reminder=True, email_to_name=self.pic_id.name).send_mail(
+        template.with_context(is_reminder=True, is_deadline=ctx.get('is_deadline',False), email_to_name=self.pic_id.name).send_mail(
                     self.id,
                     force_send=True,
                     raise_exception=False,
@@ -181,4 +182,11 @@ class MultiApprovalLine(models.Model):
         if self.approval_id.line_id.state == 'Waiting for Approval':
             self.approval_id.send_todo_validate_email_notification()
         return res
+    
+    @api.model
+    def cronjob_remind_approval_notification(self):
+        for approval_line in self.search([('deadline', '=', fields.Date.today()),('state', '=', 'Waiting for Approval')]):
+            approval_line.approval_id.with_context(is_deadline=True).send_todo_validate_email_notification()
+        return True
+
         
