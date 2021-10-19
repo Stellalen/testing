@@ -17,7 +17,7 @@
     <record id="group_purchase_own_requisition" model="res.groups">
         <field name="name">User: Own Requisition Only</field>
         <field name="category_id" ref="base.module_category_inventory_purchase"/>
-        <field name="implied_ids" eval="[(4, ref('purchase.group_purchase_user'))]"/>
+        <field name="implied_ids" eval="[(4, ref('crfg_operation.group_purchase_own_documents'))]"/>
         <field name="comment">the user will have access to his own Requisition in the Purchase application.</field>
     </record>
 	

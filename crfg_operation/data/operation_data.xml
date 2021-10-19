@@ -169,9 +169,9 @@
 				        Dear ${object.pic_id.name}
 				        <br/><br/>
 				        Here is a reminder that <strong>${object.code} : ${object.name}</strong> requesting your kind approval.
-				        <t t-if="${ctx['is_deadline']}">
-				        	Today is Deadline Date:${datetime.datetime.now().strftime('%d.%m.%Y')} 
-				        </t>
+<!-- 				        <t t-if="${ctx['is_deadline']}"> -->
+<!-- 				        	Today is Deadline Date:${datetime.datetime.now().strftime('%d.%m.%Y')}  -->
+<!-- 				        </t> -->
 				    </p>
 				</div>
 				
